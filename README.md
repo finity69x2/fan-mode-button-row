@@ -30,10 +30,10 @@ Then to use this in a card place the following in your entity card:
 | --- | --- | --- | --- | --- |
 | entity | String | Yes | none | any fan entity_id |
 | type | String | Yes | none | custom:fan-mode-button-row |
-| mode1 | String | Yes | 33 | Sets the mode for the "Mode 1" button |
-| mode2 | String | Yes | 66 | Sets the mode for the "Mode 2" button |
-| mode3 | String | Yes | 99 | Sets the mode for the "Mode 3" button |
-| mode4 | String | Yes | 99 | Sets the mode for the "Mode 4" button |
+| mode1 | String | Yes | ?? | Sets the mode for the "Mode 1" button |
+| mode2 | String | Yes | ?? | Sets the mode for the "Mode 2" button |
+| mode3 | String | Yes | ?? | Sets the mode for the "Mode 3" button |
+| mode4 | String | Yes | ?? | Sets the mode for the "Mode 4" button |
 | name | String | No | none | A custom name for the entity in the row |
 | customTheme | Boolean | No | false | set to true to use a custom theme |
 | reverseButtons | Boolean | No | false | set to true to reverse the button order |
