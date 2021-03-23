@@ -30,6 +30,10 @@ Then to use this in a card place the following in your entity card:
 | --- | --- | --- | --- | --- |
 | entity | String | Yes | none | any fan entity_id |
 | type | String | Yes | none | custom:fan-mode-button-row |
+| mode1 | String | Yes | 33 | Sets the mode for the "Mode 1" button |
+| mode2 | String | Yes | 66 | Sets the mode for the "Mode 2" button |
+| mode3 | String | Yes | 99 | Sets the mode for the "Mode 3" button |
+| mode4 | String | Yes | 99 | Sets the mode for the "Mode 4" button |
 | name | String | No | none | A custom name for the entity in the row |
 | customTheme | Boolean | No | false | set to true to use a custom theme |
 | reverseButtons | Boolean | No | false | set to true to reverse the button order |
@@ -38,10 +42,7 @@ Then to use this in a card place the following in your entity card:
 | isOnmode3Color | String | No | '#43A047' | Sets the color of the 'Mode 3' button if fan is on Mode 3 |
 | isOnmode4Color | String | No | '#43A047' | Sets the color of the 'Mode 4' button if fan is on Mode 4 |
 | buttonInactiveColor | String | No | '#759aaa' | Sets the color of the the buttons if that selection is not "active" |
-| mode1 | String | Yes | 33 | Sets the mode for the "Mode 1" button |
-| mode2 | String | Yes | 66 | Sets the mode for the "Mode 2" button |
-| mode3 | String | Yes | 99 | Sets the mode for the "Mode 3" button |
-| mode4 | String | Yes | 99 | Sets the mode for the "Mode 4" button |
+
 | customMode1Text | String | No | 'Mode 1' | Sets the text of the "Mode 1" button |
 | customMode2Text | String | No | 'Mode 2' | Sets the text of the "Mode 2" button |
 | customMode3Text | String | No | 'Mode 3' | Sets the text of the "Mode 3" button |
