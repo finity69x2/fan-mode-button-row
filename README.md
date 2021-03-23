@@ -42,7 +42,6 @@ Then to use this in a card place the following in your entity card:
 | isOnmode3Color | String | No | '#43A047' | Sets the color of the 'Mode 3' button if fan is on Mode 3 |
 | isOnmode4Color | String | No | '#43A047' | Sets the color of the 'Mode 4' button if fan is on Mode 4 |
 | buttonInactiveColor | String | No | '#759aaa' | Sets the color of the the buttons if that selection is not "active" |
-
 | customMode1Text | String | No | 'Mode 1' | Sets the text of the "Mode 1" button |
 | customMode2Text | String | No | 'Mode 2' | Sets the text of the "Mode 2" button |
 | customMode3Text | String | No | 'Mode 3' | Sets the text of the "Mode 3" button |
