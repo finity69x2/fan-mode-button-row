@@ -55,6 +55,8 @@ Provides a means to program 3 preset speed percentage settings for fans selectab
             customMode2Text: do
             customMode3Text: re
             customMode4Text: not
+            width: '15px'
+            height: '15px'
             
   ```
 
