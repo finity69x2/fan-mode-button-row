@@ -34,6 +34,8 @@ Then to use this in a card place the following in your entity card:
 | mode2 | String | Yes | ?? | Sets the mode for the "Mode 2" button |
 | mode3 | String | Yes | ?? | Sets the mode for the "Mode 3" button |
 | mode4 | String | Yes | ?? | Sets the mode for the "Mode 4" button |
+| width | String | No | 30px | A custom width for the buttons |
+| height | String | No | 30px | A custom height for the buttons |
 | name | String | No | none | A custom name for the entity in the row |
 | customTheme | Boolean | No | false | set to true to use a custom theme |
 | reverseButtons | Boolean | No | false | set to true to reverse the button order |
@@ -105,6 +107,8 @@ If the mode is changed via any other means (slider, service call, etc) the butto
             customMode2Text: do
             customMode3Text: re
             customMode4Text: not
+            width: '15px'
+            height: '15px'
             
   ```
 
