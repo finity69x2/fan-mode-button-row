@@ -1,3 +1,5 @@
+# IN PROGRESS!!! NOT FOR USE!!!
+
 # Fan Mode Button Row
 Provides a means to program 3 preset mode settings for fans selectable from a Lovelace button row.
 
