@@ -7,7 +7,7 @@ class CustomFanModeRow extends Polymer.Element {
 				:host {
 					line-height: inherit;
 				}
-				.percentage {
+				.mode {
 					margin-left: 2px;
 					margin-right: 2px;
 					background-color: #759aaa;
@@ -25,28 +25,28 @@ class CustomFanModeRow extends Polymer.Element {
 					<hui-generic-entity-row hass="[[hass]]" config="[[_config]]">
 						<div class='horizontal justified layout' on-click="stopPropagation">
 							<button
-								class='percentage'
+								class='mode'
 								style='[[_leftColor]];min-width:[[_width]];max-width:[[_width]];height:[[_height]]'
 								toggles name="[[_leftName]]"
-								on-click='setPercentage'
+								on-click='setMode'
 								disabled='[[_leftState]]'>[[_leftText]]</button>
 							<button
-								class='percentage'
+								class='mode'
 								style='[[_midLeftColor]];min-width:[[_width]];max-width:[[_width]];height:[[_height]]'
 								toggles name="[[_midLeftName]]"
-								on-click='setPercentage'
+								on-click='setMode'
 								disabled='[[_midLeftState]]'>[[_midLeftText]]</button>
 							<button
-								class='percentage'
+								class='mode'
 								style='[[_midRightColor]];min-width:[[_width]];max-width:[[_width]];height:[[_height]]'
 								toggles name="[[_midRightName]]"
-								on-click='setPercentage'
+								on-click='setMode'
 								disabled='[[_midRightState]]'>[[_midRightText]]</button>
 							<button
-								class='percentage'
+								class='mode'
 								style='[[_rightColor]];min-width:[[_width]];max-width:[[_width]];height:[[_height]]'
 								toggles name="[[_rightName]]"
-								on-click='setPercentage'
+								on-click='setMode'
 								disabled='[[_rightState]]'>[[_rightText]]</button>
 						</div>
 					</hui-generic-entity-row>
@@ -61,10 +61,10 @@ class CustomFanModeRow extends Polymer.Element {
 			},
 				_config: Object,
 				_stateObj: Object,
-				_offSP: Number,
-				_lowSP: Number,
-				_medSP: Number,
-				_highSP: Number,
+				_modeOff: String,
+				_modeOne: String,
+				_modeTwo: String,
+				_modeThree: String,
 				_width: String,
 				_height: String,
 				_leftColor: String,
@@ -92,23 +92,24 @@ class CustomFanModeRow extends Polymer.Element {
 		
 		this._config = {
 			customTheme: false,
-			customSetpoints: false,
 			reverseButtons: false,
-			offPercentage: 0,
-			lowPercentage: 33,
-			medPercentage: 66,
-			hiPercentage: 100,
+			customModes: false,
+			customText: false,
+			modeOff: "none",
+			modeOne: "low",
+			modeTwo: "medium",
+			modeThree: "high",
 			width: '30px',
 			height: '30px',
 			isOffColor: '#f44c09',
-			isOnLowColor: '#43A047',
-			isOnMedColor: '#43A047',
-			isOnHiColor: '#43A047',
+			isOnModeOneColor: '#43A047',
+			isOnModeTwoColor: '#43A047',
+			isOnModeThreeColor: '#43A047',
 			buttonInactiveColor: '#759aaa',
 			customOffText: 'OFF',
-			customLowText: 'LOW',
-			customMedText: 'MED',
-			customHiText: 'HIGH',
+			customModeOneText: 'LOW',
+			customModeTwoText: 'MED',
+			customModeThreeText: 'HIGH',
 			...config
 		};
 	}
@@ -118,117 +119,120 @@ class CustomFanModeRow extends Polymer.Element {
 		const config = this._config;
 		const stateObj = hass.states[config.entity];
 		const custTheme = config.customTheme;
-		const custSetpoint = config.customSetpoints;
 		const revButtons = config.reverseButtons;
+		const custModes = config.customModes;
+		const custText = config.customText;
 		const buttonWidth = config.width;
 		const buttonHeight = config.height;
-		const OnLowClr = config.isOnLowColor;
-		const OnMedClr = config.isOnMedColor;
-		const OnHiClr = config.isOnHiColor;
-		const OffClr = config.isOffColor;
+		const onM1Clr = config.isOnModeOneColor;
+		const onM2Clr = config.isOnModeTwoColor;
+		const onM3Clr = config.isOnModeThreeColor;
+		const offClr = config.isOffColor;
 		const buttonOffClr = config.buttonInactiveColor;
-		const OffSetpoint = config.offPercentage;
-		const LowSetpoint = config.lowPercentage;
-		const MedSetpoint = config.medPercentage;
-		const HiSetpoint = config.hiPercentage;
+		const mOff = config.modeOff;
+		const m1 = config.modeOne;
+		const m2 = config.modeTwo;
+		const m3 = config.modeThree;
 		const custOffTxt = config.customOffText;
-		const custLowTxt = config.customLowText;
-		const custMedTxt = config.customMedText;
-		const custHiTxt = config.customHiText;
+		const custM1Txt = config.customModeOneText;
+		const custM2Txt = config.customModeTwoText;
+		const custM3Txt = config.customModeThreeText;
 						
-		let offSetpoint;
-		let lowSetpoint;
-		let medSetpoint;
-		let hiSetpoint;
-		let low;
-		let med;
-		let high;
 		let offstate;
+		let mode1;
+		let mode2;
+		let mode3;
 		
-		if (custSetpoint) {
-			offSetpoint = parseInt(OffSetpoint);
-			medSetpoint = parseInt(MedSetpoint);
-			if (parseInt(LowSetpoint) < 10) {
-				lowSetpoint = 10;
-			} else {
-				lowSetpoint =  parseInt(LowSetpoint);
-			}
-			if (parseInt(HiSetpoint) > 100) {	
-				hiSetpoint = 100;
-			} else {
-				hiSetpoint = parseInt(HiSetpoint);
-			}
+		if (custModes) {
 			if (stateObj && stateObj.attributes) {
-				if (stateObj.state == 'on' && stateObj.attributes.percentage > offSetpoint && stateObj.attributes.percentage <= ((medSetpoint + lowSetpoint)/2) ) {
-					low = 'on';
-				} else if (stateObj.state == 'on' && stateObj.attributes.percentage > ((medSetpoint + lowSetpoint)/2) && stateObj.attributes.percentage <= ((hiSetpoint + medSetpoint)/2) ) {
-					med = 'on';
-				} else if (stateObj.state == 'on' && stateObj.attributes.percentage > ((hiSetpoint + medSetpoint)/2) && stateObj.attributes.percentage <= 100) {
-					high = 'on';
+				if (stateObj.state == 'on' && stateObj.attributes.preset_mode == m1 ) {
+					mode1 = 'on';
+				} else if (stateObj.state == 'on' && stateObj.attributes.preset_mode == m2 ) {
+					mode2 = 'on';
+				} else if (stateObj.state == 'on' && stateObj.attributes.preset_mode == m3 ) {
+					mode3 = 'on';
 				} else {
 					offstate = 'on';
 				}	
 			}
 		} else {
-			offSetpoint = parseInt(OffSetpoint);
-			lowSetpoint =  parseInt(LowSetpoint);
-			medSetpoint = parseInt(MedSetpoint);
-			hiSetpoint = parseInt(HiSetpoint);
 			if (stateObj && stateObj.attributes) {
-				if (stateObj.state == 'on' && stateObj.attributes.percentage >= 17 && stateObj.attributes.percentage <= 50) {
-					low = 'on';
-				} else if (stateObj.state == 'on' && stateObj.attributes.percentage >= 51 && stateObj.attributes.percentage <= 75) {
-					med = 'on';
-				} else if (stateObj.state == 'on' && stateObj.attributes.percentage >= 76 && stateObj.attributes.percentage <= 100) {
-					high = 'on';
+				if (stateObj.state == 'on' && stateObj.attributes.preset_mode == "low" ) {
+					mode1 = 'on';
+				} else if (stateObj.state == 'on' && stateObj.attributes.preset_mode == "medium" ) {
+					mode2 = 'on';
+				} else if (stateObj.state == 'on' && stateObj.attributes.preset_mode == "high" ) {
+					mode3 = 'on';
 				} else {
 					offstate = 'on';
-				}
+				}	
 			}
 		}
 		
-		let lowcolor;
-		let medcolor;
-		let hicolor;
+		let offtext;
+		let m1text;
+		let m2text;
+		let m3text;
+		
+		if (custText) {
+			offtext = custOffTxt;
+			m1text = custM1Txt;
+			m2text = custM2Txt;
+			m3text = custM3Txt;
+		} else if (custModes) {
+			offtext = mOff;
+			m1text = m1;
+			m2text = m2;
+			m3text = m3;
+		} else {
+			offtext = "OFF";
+			m1text = "LOW";
+			m2text = "MED";
+			m3text = "HIGH";
+		}
+		
+		let mode1color;
+		let mode2color;
+		let mode3color;
 		let offcolor;
 
 				
 		if (custTheme) {
-			if (low == 'on') {
-				lowcolor = 'background-color:' + OnLowClr;
+			if (mode1 == 'on') {
+				mode1color = 'background-color:' + onM1Clr;
 			} else {
-				lowcolor = 'background-color:' + buttonOffClr;
+				mode1color = 'background-color:' + buttonOffClr;
 			}
-			if (med == 'on') {
-				medcolor = 'background-color:'  + OnMedClr;
+			if (mode2 == 'on') {
+				mode2color = 'background-color:'  + onM2Clr;
 			} else {
-				medcolor = 'background-color:' + buttonOffClr;
+				mode2color = 'background-color:' + buttonOffClr;
 			}
-			if (high == 'on') {
-				hicolor = 'background-color:'  + OnHiClr;
+			if (mode3 == 'on') {
+				mode3color = 'background-color:'  + onM3Clr;
 			} else {
-				hicolor = 'background-color:' + buttonOffClr;
+				mode3color = 'background-color:' + buttonOffClr;
 			}
 			if (offstate == 'on') {
-				offcolor = 'background-color:'  + OffClr;
+				offcolor = 'background-color:'  + offClr;
 			} else {
 				offcolor = 'background-color:' + buttonOffClr;
 			}
 		} else {
-			if (low == 'on') {
-				lowcolor = 'background-color: var(--switch-checked-color)';
+			if (mode1 == 'on') {
+				mode1color = 'background-color: var(--switch-checked-color)';
 			} else {
-				lowcolor = 'background-color: var(--switch-unchecked-color)';
+				mode1color = 'background-color: var(--switch-unchecked-color)';
 			}
-			if (med == 'on') {
-				medcolor = 'background-color: var(--switch-checked-color)';
+			if (mode2 == 'on') {
+				mode2color = 'background-color: var(--switch-checked-color)';
 			} else {
-				medcolor = 'background-color: var(--switch-unchecked-color)';
+				mode2color = 'background-color: var(--switch-unchecked-color)';
 			}
-			if (high == 'on') {
-				hicolor = 'background-color: var(--switch-checked-color)';
+			if (mode3 == 'on') {
+				mode3color = 'background-color: var(--switch-checked-color)';
 			} else {
-				hicolor = 'background-color: var(--switch-unchecked-color)';
+				mode3color = 'background-color: var(--switch-unchecked-color)';
 			}
 			if (offstate == 'on') {
 				offcolor = 'background-color: var(--switch-checked-color)';
@@ -237,70 +241,65 @@ class CustomFanModeRow extends Polymer.Element {
 			}
 		}
 
-		let offtext = custOffTxt;
-		let lowtext = custLowTxt;
-		let medtext = custMedTxt;
-		let hitext = custHiTxt;
-		
 		let buttonwidth = buttonWidth;
 		let buttonheight = buttonHeight;
 		
 		let offname = 'off'
-		let lowname = 'low'
-		let medname = 'medium'
-		let hiname = 'high'
+		let m1name = 'mode1'
+		let m2name = 'mode2'
+		let m3name = 'mode3'
 		
 		if (revButtons) {
 			this.setProperties({
 				_stateObj: stateObj,
 				_leftState: offstate == 'on',
-				_midLeftState: low === 'on',
-				_midRightState: med === 'on',
-				_rightState: high === 'on',
+				_midLeftState: mode1 === 'on',
+				_midRightState: mode2 === 'on',
+				_rightState: mode3 === 'on',
 				_width: buttonwidth,
 				_height: buttonheight,
 				_leftColor: offcolor,
-				_midLeftColor: lowcolor,
-				_midRightColor: medcolor,
-				_rightColor: hicolor,
-				_offSP: offSetpoint,
-				_lowSP: lowSetpoint,
-				_medSP: medSetpoint,
-				_highSP: hiSetpoint,
+				_midLeftColor: mode1color,
+				_midRightColor: mode2color,
+				_rightColor: mode3color,
+				_modeOff: mOff,
+				_modeOne: m1,
+				_modeTwo: m2,
+				_modeThree: m3,
 				_leftText: offtext,
-				_midLeftText: lowtext,
-				_midRightText: medtext,
-				_rightText: hitext,
+				_midLeftText: m1text,
+				_midRightText: m2text,
+				_rightText: m3text,
 				_leftName: offname,
-				_midLeftName: lowname,
-				_midRightName: medname,
-				_rightName: hiname,
+				_midLeftName: m1name,
+				_midRightName: m2name,
+				_rightName: m3name,
 
 			});
 		} else {
 			this.setProperties({
 				_stateObj: stateObj,
-				_leftState: high == 'on',
-				_midLeftState: med === 'on',
-				_midRightState: low === 'on',
+				_leftState: mode3 == 'on',
+				_midLeftState: mode2 === 'on',
+				_midRightState: mode1 === 'on',
 				_rightState: offstate === 'on',
 				_width: buttonwidth,
 				_height: buttonheight,
-				_leftColor: hicolor,
-				_midLeftColor: medcolor,
-				_midRightColor: lowcolor,
+				_leftColor: mode3color,
+				_midLeftColor: mode2color,
+				_midRightColor: mode1color,
 				_rightColor: offcolor,
-				_offSP: offSetpoint,
-				_lowSP: lowSetpoint,
-				_medSP: medSetpoint,
-				_highSP: hiSetpoint,
-				_leftText: hitext,
-				_midLeftText: medtext,
-				_midRightText: lowtext,
+				_modeOff: mOff,
+				_modeOne: m1,
+				_modeTwo: m2,
+				_modeThree: m3,
+				_leftText: m3text,
+				_midLeftText: m2text,
+				_midRightText: m1text,
 				_rightText: offtext,
-				_leftName: hiname,
-				_midLeftName: medname,
-				_midRightName: lowname,
+				_leftName: m3name,
+				_midLeftName: m2name,
+				_midRightName: m1name,
 				_rightName: offname,
 			});
 		}
@@ -312,21 +311,20 @@ class CustomFanModeRow extends Polymer.Element {
 		e.stopPropagation();
 	}
 	
-	setPercentage(e) {
-		const level = e.currentTarget.getAttribute('name');
+	setMode(e) {
+		const mode = e.currentTarget.getAttribute('name');
 		const param = {entity_id: this._config.entity};
-		if( level == 'off' ){
-			param.percentage = this._offSP;
-			this.hass.callService('fan', 'set_percentage', param);
-		} else if (level == 'low') {
-			param.percentage = this._lowSP;
-			this.hass.callService('fan', 'set_percentage', param);
-		} else if (level == 'medium') {
-			param.percentage = this._medSP;
-			this.hass.callService('fan', 'set_percentage', param);
-		} else if (level == 'high') {
-			param.percentage = this._highSP;
-			this.hass.callService('fan', 'set_percentage', param);
+		if(mode == 'off' ){
+			this.hass.callService('fan', 'turn_off', param);
+		} else if (mode == 'mode1') {
+			param.preset_mode = this._modeOne;
+			this.hass.callService('fan', 'set_preset_mode', param);
+		} else if (mode == 'mode2') {
+			param.preset_mode = this._modeTwo;
+			this.hass.callService('fan', 'set_preset_mode', param);
+		} else if (mode == 'mode3') {
+			param.preset_mode = this._modeThree;
+			this.hass.callService('fan', 'set_preset_mode', param);
 		}
 	}
 }
