@@ -1,4 +1,4 @@
-Provides a means to program 3 preset speed percentage settings for fans selectable from a Lovelace button row. 
+Provides a means to program 3 preset mode settings for fans selectable from a Lovelace button row. 
 
 ## NOTE: You must be on Home Assistant V2021.3.X or higher to use this plug-in
 
@@ -7,34 +7,22 @@ Provides a means to program 3 preset speed percentage settings for fans selectab
   ```
     cards:
       - type: entities
-        title: Hall Fan Mode Presets
+        title: Hall Fan Mode Preset Modes
         show_header_toggle: false
         entities:
         ## USE THIS CONFIG TO HAVE IT MATCH YOUR THEME ##
           - entity: fan.hall_fan
             type: custom:fan-mode-button-row
             name: Fan Not Custom Theme
-            mode1: ??
-            mode2: ??
-            mode3: ??
-            mode4: ??
         ## USE THIS CONFIG TO USE A DEFAULT CUSTOM THEME
           - entity: fan.hall_fan
             type: custom:fan-mode-button-row
             name: Fan Default Custom Theme
-            mode1: ??
-            mode2: ??
-            mode3: ??
-            mode4: ??
             customTheme: true
         ## USE THIS CONFIG TO USE A 'CUSTOMZED' CUSTOM THEME
           - entity: fan.hall_fan
             type: custom:fan-mode-button-row
             name: Fan Custom Custom Theme
-            mode1: ??
-            mode2: ??
-            mode3: ??
-            mode4: ??
             reverseButtons: true
             customTheme: true
             isOnMode1Color: 'rgb(255, 0, 0)'
@@ -42,32 +30,37 @@ Provides a means to program 3 preset speed percentage settings for fans selectab
             isOnMode3Color: '#222222'
             isOnMode4Color: 'purple'
             buttonInactiveColor: '#aaaaaa'
-            
-        ## USE THIS CONFIG TO SET CUSTOM BUTTON TEXT (NOT REQUIRED TO SET "customTheme: true" TO USE THESE )
+        ## FULL EXAMPLE CONFIGURATION
           - entity: fan.hall_fan
             type: custom:fan-mode-button-row
             name: Fan Custom Button Text
-            mode1: ??
-            mode2: ??
-            mode3: ??
-            mode4: ??
-            customMode1Text: me
-            customMode2Text: do
-            customMode3Text: re
-            customMode4Text: not
+            twoModeFan: true
+            reverseButtons: true
+            customTheme: true
+            isOnModeOneColor: 'rgb(255, 0, 0)'
+            isOnModeTwoColor: '#888888'
+            isOnModeThreeColor: '#222222'
+            buttonInactiveColor: '#aaaaaa'
+            isOffColor: 'purple'
+            customModes: true
+            modeOff: "brown"
+            modeOne: "low"
+            modeTwo: "medium"
+            modeThree: "high"
+            customText: true
+            customOffText: 'NAY'
+            customModeOneText: '1'
+            customModeTwoText: 'mid'
+            customModeThreeText: 'Fast'
             width: '15px'
             height: '15px'
             
   ```
 
-This is with the default Lovelace frontend theme set:
+Please see my fan packages in my Home-Assistant Repo for example configurations to use the above plugin configurations.
 
-![Default](images/fan_mode_default.jpg)
+https://github.com/finity69x2/Home-Assistant/tree/master/packages
 
-This is with the "Slate" frontend theme set:
+Examples of the above plugion configurations:
 
-![Slate](images/fan_mode_default_2.jpg)
-
-This is how this plugin looks with the plugin fully themed:
-
-![Slate-Themed](images/fan_mode_themed.jpg)
+![FanModeExamples](images/fan-mode-button-row.jpg)
