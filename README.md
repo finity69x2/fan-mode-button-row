@@ -32,25 +32,46 @@ Then to use this in a card place the following in your entity card:
 | --- | --- | --- | --- | --- |
 | entity | String | Yes | none | any fan entity_id |
 | type | String | Yes | none | custom:fan-mode-button-row |
-| mode1 | String | Yes | ?? | Sets the mode for the "Mode 1" button |
-| mode2 | String | Yes | ?? | Sets the mode for the "Mode 2" button |
-| mode3 | String | Yes | ?? | Sets the mode for the "Mode 3" button |
-| mode4 | String | Yes | ?? | Sets the mode for the "Mode 4" button |
+| customModes | Boolean | No | false | Set to true to use custom mode definitions |
+| modeOff | String | No | 'off' | Sets the mode for the 'OFF' button (see NOTE 2 below) |
+| modeOne | String | No | 'low' | Sets the mode for the 'Mode 1' (default 'LOW') button |
+| modeTwo | String | No | 'medium' | Sets the mode for the 'Mode 2' (default 'MED') button |
+| modeThree | String | No | 'high' | Sets the mode for the 'Mode 3' (default 'HIGH') button |
 | width | String | No | 30px | A custom width for the buttons |
 | height | String | No | 30px | A custom height for the buttons |
 | name | String | No | none | A custom name for the entity in the row |
 | customTheme | Boolean | No | false | set to true to use a custom theme |
 | reverseButtons | Boolean | No | false | set to true to reverse the button order |
-| isOnMode1Color | String | No | '#43A047' | Sets the color of the 'Mode 1' button if fan is on Mode 1 |
-| isOnMode2Color | String | No | '#43A047' | Sets the color of the 'Mode 2' button if fan is on Mode 2 |
-| isOnmode3Color | String | No | '#43A047' | Sets the color of the 'Mode 3' button if fan is on Mode 3 |
-| isOnmode4Color | String | No | '#43A047' | Sets the color of the 'Mode 4' button if fan is on Mode 4 |
+| isOffColor | String | No | '#f44c09' | Sets the color of the 'OFF' button if fan is off |
+| isOnModeOneColor | String | No | '#43A047' | Sets the color of the 'Mode 1' (default 'LOW') button if fan is on Mode 1 |
+| isOnModeTwoColor | String | No | '#43A047' | Sets the color of the 'Mode 2' (default 'MED') button if fan is on Mode 2 |
+| isOnModeThreeColor | String | No | '#43A047' | Sets the color of the 'Mode 3' (default 'HIGH') button if fan is on Mode 3 |
 | buttonInactiveColor | String | No | '#759aaa' | Sets the color of the the buttons if that selection is not "active" |
-| customMode1Text | String | No | 'Mode 1' | Sets the text of the "Mode 1" button |
-| customMode2Text | String | No | 'Mode 2' | Sets the text of the "Mode 2" button |
-| customMode3Text | String | No | 'Mode 3' | Sets the text of the "Mode 3" button |
-| customMode4Text | String | No | 'Mode 4' | Sets the text of the "Mode 4" button |
+| customText | Boolean | No | false | Set to true to use custom text for buttons |
+| customOffText | String | No | 'OFF' | Sets the text of the 'OFF button |
+| customModeOneText | String | No | 'LOW' | Sets the text of the 'Mode 1' (default 'LOW') button |
+| customModeTwoText | String | No | 'MED' | Sets the text of the 'Mode 2' (default 'MED') button |
+| customModeThreeText | String | No | 'HIGH' | Sets the text of the "Mode 3" (default 'HIGH') button |
+| twoModeFan | Boolean | No | false | Set to true to hide the middle mode button ('modeTwo') for fans with only two modes |
 
+
+NOTES:
+
+1. The default values for the service calls and button text are as noted above. If you need to use custom modes then you need to set the values of the mode buttons to exactly match the modes you want to control with this plug-in. 
+
+2. The "modeOff" button will ALWAYS turn the fan off no matter what the mode is set to for that button. However, if you use custom modes (customModes = 'true') the button text will change to display the mode name as set in the custom mode setting of the buttons. So, even though the "modeOff" button will only ever turn the fan off you may want to set a different mode for that button to display the desired text for the button.
+
+3. If, however, you choose to use custom text (customText = 'true') the custom text settings for the button will override both the default names AND the custom mode names.
+
+Yes, it's a bit confusing but to summarize:
+
+- customModes = 'false' and customText = 'false' => default text as noted in the table above will be used
+
+- customModes = 'true' and customText = 'false' => text will be what is set for the mode for each button (Only true for modes changed from default above, otherwise they will display the defauilt mode text)
+
+- customText = 'true' (no matter what customModes is set to) => text will be what is set for each button by the custom text setting (Only true for text changed from default above otherwise they will display the defauilt text)
+
+That's the best I can explain it. Feel free to poke around at it and hopefully it will make more sense.
 
 The values for the colors can be any valid color string in "HEX", "RGB" or by color name.
 
@@ -61,34 +82,22 @@ If the mode is changed via any other means (slider, service call, etc) the butto
   ```
     cards:
       - type: entities
-        title: Hall Fan Mode Presets
+        title: Hall Fan Mode Preset Modes
         show_header_toggle: false
         entities:
         ## USE THIS CONFIG TO HAVE IT MATCH YOUR THEME ##
           - entity: fan.hall_fan
             type: custom:fan-mode-button-row
             name: Fan Not Custom Theme
-            mode1: ??
-            mode2: ??
-            mode3: ??
-            mode4: ??
         ## USE THIS CONFIG TO USE A DEFAULT CUSTOM THEME
           - entity: fan.hall_fan
             type: custom:fan-mode-button-row
             name: Fan Default Custom Theme
-            mode1: ??
-            mode2: ??
-            mode3: ??
-            mode4: ??
             customTheme: true
         ## USE THIS CONFIG TO USE A 'CUSTOMZED' CUSTOM THEME
           - entity: fan.hall_fan
             type: custom:fan-mode-button-row
             name: Fan Custom Custom Theme
-            mode1: ??
-            mode2: ??
-            mode3: ??
-            mode4: ??
             reverseButtons: true
             customTheme: true
             isOnMode1Color: 'rgb(255, 0, 0)'
@@ -96,33 +105,38 @@ If the mode is changed via any other means (slider, service call, etc) the butto
             isOnMode3Color: '#222222'
             isOnMode4Color: 'purple'
             buttonInactiveColor: '#aaaaaa'
-            
-        ## USE THIS CONFIG TO SET CUSTOM BUTTON TEXT (NOT REQUIRED TO SET "customTheme: true" TO USE THESE )
+        ## FULL EXAMPLE CONFIGURATION
           - entity: fan.hall_fan
             type: custom:fan-mode-button-row
             name: Fan Custom Button Text
-            mode1: ??
-            mode2: ??
-            mode3: ??
-            mode4: ??
-            customMode1Text: me
-            customMode2Text: do
-            customMode3Text: re
-            customMode4Text: not
+            twoModeFan: true
+            reverseButtons: true
+            customTheme: true
+            isOnModeOneColor: 'rgb(255, 0, 0)'
+            isOnModeTwoColor: '#888888'
+            isOnModeThreeColor: '#222222'
+            buttonInactiveColor: '#aaaaaa'
+            isOffColor: 'purple'
+            customModes: true
+            modeOff: "brown"
+            modeOne: "low"
+            modeTwo: "medium"
+            modeThree: "high"
+            customText: true
+            customOffText: 'NAY'
+            customModeOneText: '1'
+            customModeTwoText: 'mid'
+            customModeThreeText: 'Fast'
             width: '15px'
             height: '15px'
             
   ```
 
-This is with the default Lovelace frontend theme set:
+Please see my fan packages in my Home-Assistant Repo for example configurations to use the above plugin configurations.
 
-![Default](images/fan_mode_default.jpg)
+https://github.com/finity69x2/Home-Assistant/tree/master/packages
 
-This is with the "Slate" frontend theme set:
+Examples of the above plugion configurations:
 
-![Slate](images/fan_mode_default_2.jpg)
-
-This is how this plugin looks with the plugin fully themed:
-
-![Slate-Themed](images/fan_mode_themed.jpg)
+![FanModeExamples](images/fan-mode-button-row.jpg)
 
