@@ -93,6 +93,7 @@ class CustomFanModeRow extends Polymer.Element {
 		
 		this._config = {
 			customTheme: false,
+			sendStateWithMode: false,
 			reverseButtons: false,
 			customModes: false,
 			customText: false,
@@ -121,6 +122,7 @@ class CustomFanModeRow extends Polymer.Element {
 		const config = this._config;
 		const stateObj = hass.states[config.entity];
 		const custTheme = config.customTheme;
+		const sendStateWithMode = config.sendStateWithMode;
 		const revButtons = config.reverseButtons;
 		const custModes = config.customModes;
 		const custText = config.customText;
@@ -338,15 +340,19 @@ class CustomFanModeRow extends Polymer.Element {
 		const param = {entity_id: this._config.entity};
 		if(mode == 'off' ){
 			this.hass.callService('fan', 'turn_off', param);
-		} else if (mode == 'mode1') {
-			param.preset_mode = this._modeOne;
-			this.hass.callService('fan', 'set_preset_mode', param);
-		} else if (mode == 'mode2') {
-			param.preset_mode = this._modeTwo;
-			this.hass.callService('fan', 'set_preset_mode', param);
-		} else if (mode == 'mode3') {
-			param.preset_mode = this._modeThree;
-			this.hass.callService('fan', 'set_preset_mode', param);
+		} else {
+			if (this._config.sendStateWithMode) {
+				this.hass.callService('fan', 'turn_on', param);
+			} if (mode == 'mode1') {
+				param.preset_mode = this._modeOne;
+				this.hass.callService('fan', 'set_preset_mode', param);
+			} else if (mode == 'mode2') {
+				param.preset_mode = this._modeTwo;
+				this.hass.callService('fan', 'set_preset_mode', param);
+			} else if (mode == 'mode3') {
+				param.preset_mode = this._modeThree;
+				this.hass.callService('fan', 'set_preset_mode', param);
+			}
 		}
 	}
 }
