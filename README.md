@@ -51,6 +51,7 @@ Then to use this in a card place the following in your entity card:
 | customModeTwoText | String | No | 'MED' | Sets the text of the 'Mode 2' (default 'MED') button |
 | customModeThreeText | String | No | 'HIGH' | Sets the text of the "Mode 3" (default 'HIGH') button |
 | twoModeFan | Boolean | No | false | Set to true to hide the middle mode button ('modeTwo') for fans with only two modes |
+| sendStateWithMode | Boolean | No | false | Calls the turn_on service for the fan before sending the mode, used if fan does not power on automatically when mode is set |
 
 
 NOTES:
