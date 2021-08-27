@@ -1,5 +1,5 @@
 # Fan Mode Button Row
-Provides a means to program 2 or 3 preset mode settings for fans selectable from a Lovelace button row.
+Provides a means to program 5 preset mode settings (OFF + 4 Speeds) for fans selectable from a Lovelace button row. I removed the option for a two and three speed fan, since this is already provided by https://github.com/finity69x2/fan-mode-button-row. I just needed to have a fifth button, but will consider adding the option to have a custom number of preset modes if time permits.
 
 ## NOTE: You must be on Home Assistant V2021.3.X or higher to use this plug-in. However, if your fan integration hasn't been updated to the new control method (if it doesn't actually use preset modes) then you need to use the fan-control-entity-row.
 
@@ -47,6 +47,7 @@ Then to use this in a card place the following in your entity card:
 | modeOne | String | No | 'low' | Sets the mode for the 'Mode 1' (default 'LOW') button |
 | modeTwo | String | No | 'medium' | Sets the mode for the 'Mode 2' (default 'MED') button |
 | modeThree | String | No | 'high' | Sets the mode for the 'Mode 3' (default 'HIGH') button |
+| modeFour | String | No | 'max' | Sets the mode for the 'Mode 4' (default 'MAX') button |
 | width | String | No | 30px | A custom width for the buttons |
 | height | String | No | 30px | A custom height for the buttons |
 | name | String | No | none | A custom name for the entity in the row |
@@ -56,13 +57,15 @@ Then to use this in a card place the following in your entity card:
 | isOnModeOneColor | String | No | '#43A047' | Sets the color of the 'Mode 1' (default 'LOW') button if fan is on Mode 1 |
 | isOnModeTwoColor | String | No | '#43A047' | Sets the color of the 'Mode 2' (default 'MED') button if fan is on Mode 2 |
 | isOnModeThreeColor | String | No | '#43A047' | Sets the color of the 'Mode 3' (default 'HIGH') button if fan is on Mode 3 |
+| isOnModeFourColor | String | No | '#43A047' | Sets the color of the 'Mode 4' (default 'MAX') button if fan is on Mode 4 |
 | buttonInactiveColor | String | No | '#759aaa' | Sets the color of the the buttons if that selection is not "active" |
 | customText | Boolean | No | false | Set to true to use custom text for buttons |
 | customOffText | String | No | 'OFF' | Sets the text of the 'OFF button |
 | customModeOneText | String | No | 'LOW' | Sets the text of the 'Mode 1' (default 'LOW') button |
 | customModeTwoText | String | No | 'MED' | Sets the text of the 'Mode 2' (default 'MED') button |
 | customModeThreeText | String | No | 'HIGH' | Sets the text of the "Mode 3" (default 'HIGH') button |
-| twoModeFan | Boolean | No | false | Set to true to hide the middle mode button ('modeTwo') for fans with only two modes |
+| customModeFourText | String | No | 'MAX' | Sets the text of the "Mode 4" (default 'MAX') button |
+| twoModeFan (not available) | Boolean | No | false | Set to true to hide the middle mode button ('modeTwo') for fans with only two modes |
 | sendStateWithMode | Boolean | No | false | Calls the turn_on service for the fan before sending the mode, used if fan does not power on automatically when mode is set |
 
 
@@ -126,6 +129,7 @@ If the mode is changed via any other means (slider, service call, etc) the butto
             isOnModeOneColor: 'rgb(255, 0, 0)'
             isOnModeTwoColor: '#888888'
             isOnModeThreeColor: '#222222'
+            isOnModeFourColor: '#222222'
             buttonInactiveColor: '#aaaaaa'
             isOffColor: 'purple'
             customModes: true
@@ -133,11 +137,13 @@ If the mode is changed via any other means (slider, service call, etc) the butto
             modeOne: "low"
             modeTwo: "medium"
             modeThree: "high"
+            modeFour: "max"
             customText: true
             customOffText: 'NAY'
             customModeOneText: '1'
             customModeTwoText: 'mid'
             customModeThreeText: 'Fast'
+            customModeFourText: 'plaid'
             width: '15px'
             height: '15px'
             
