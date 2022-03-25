@@ -34,7 +34,7 @@ class CustomFanModeRow extends Polymer.Element {
 						<div class='horizontal justified layout' on-click="stopPropagation">
 							<button
 								class='mode'
-								style='[[_leftColor]];min-width:[[_width]];max-width:[[_width]];height:[[_height]]'
+								style='[[_leftColor]];min-width:[[_width]];max-width:[[_width]];height:[[_height]];[[_hideLeft]]'
 								toggles name="[[_leftName]]"
 								on-click='setMode'
 								disabled='[[_leftState]]'>[[_leftText]]</button>
@@ -52,7 +52,7 @@ class CustomFanModeRow extends Polymer.Element {
 								disabled='[[_midRightState]]'>[[_midRightText]]</button>
 							<button
 								class='mode'
-								style='[[_rightColor]];min-width:[[_width]];max-width:[[_width]];height:[[_height]]'
+								style='[[_rightColor]];min-width:[[_width]];max-width:[[_width]];height:[[_height]];[[_hideRight]]'
 								toggles name="[[_rightName]]"
 								on-click='setMode'
 								disabled='[[_rightState]]'>[[_rightText]]</button>
@@ -91,8 +91,10 @@ class CustomFanModeRow extends Polymer.Element {
 				_midLeftState: Boolean,
 				_midRightState: Boolean,
 				_rightState: Boolean,
+				_hideLeft: Boolean,
 				_hideMidLeft: Boolean,
-				_hideMidLeft: Boolean,
+				_hideMidRight: Boolean,
+				_hideRight: Boolean,
 		}
 	}
 
@@ -106,6 +108,7 @@ class CustomFanModeRow extends Polymer.Element {
 			customModes: false,
 			customText: false,
 			twoModeFan: false,
+			hideOff: false,
 			modeOff: "none",
 			modeOne: "low",
 			modeTwo: "medium",
@@ -135,6 +138,7 @@ class CustomFanModeRow extends Polymer.Element {
 		const custModes = config.customModes;
 		const custText = config.customText;
 		const twoModes = config.twoModeFan;
+		const hide_Off = config.hideOff;
 		const buttonWidth = config.width;
 		const buttonHeight = config.height;
 		const onM1Clr = config.isOnModeOneColor;
@@ -254,6 +258,15 @@ class CustomFanModeRow extends Polymer.Element {
 			}
 		}
 		
+		let hideoff = 'display:block';
+		let nohide = 'display:block';
+		
+		if (hide_Off) {
+			hideoff = 'display:none';
+		} else {
+			hideoff = 'display:block';
+		}
+		
 		let twomodes_left;
 		let twomodes_right;
 		
@@ -303,8 +316,10 @@ class CustomFanModeRow extends Polymer.Element {
 				_midLeftName: m1name,
 				_midRightName: m2name,
 				_rightName: m3name,
+				_hideLeft: hideoff,
 				_hideMidLeft: twomodes_left,
 				_hideMidRight: twomodes_right,
+				_hideRight: nohide,
 			});
 		} else {
 			this.setProperties({
@@ -331,8 +346,10 @@ class CustomFanModeRow extends Polymer.Element {
 				_midLeftName: m2name,
 				_midRightName: m1name,
 				_rightName: offname,
+				_hideLeft: nohide,
 				_hideMidLeft: twomodes_left,
 				_hideMidRight: twomodes_right,
+				_hideRight: hideoff,
 			});
 		}
 				
