@@ -52,6 +52,7 @@ Then to use this in a card place the following in your entity card:
 | name | String | No | none | A custom name for the entity in the row |
 | customTheme | Boolean | No | false | set to true to use a custom theme |
 | reverseButtons | Boolean | No | false | set to true to reverse the button order |
+| hideOff | Boolean | No | false | Set to true to hide the Off button |
 | isOffColor | String | No | '#f44c09' | Sets the color of the 'OFF' button if fan is off |
 | isOnModeOneColor | String | No | '#43A047' | Sets the color of the 'Mode 1' (default 'LOW') button if fan is on Mode 1 |
 | isOnModeTwoColor | String | No | '#43A047' | Sets the color of the 'Mode 2' (default 'MED') button if fan is on Mode 2 |
