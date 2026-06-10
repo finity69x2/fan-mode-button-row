@@ -262,25 +262,27 @@ class CustomFanModeRow extends LitElement {
 				offcolor = 'background-color:' + buttonOffClr;
 			}
 		} else {
+			const styleOn = 'background-color: var(--ha-switch-checked-background-color, var(--ha-color-fill-primary-normal-resting)); border-color: var(--ha-switch-checked-border-color, var(--ha-color-border-primary-loud))';
+			const styleOff = 'background-color: var(--ha-switch-background-color, var(--ha-color-fill-disabled-quiet-resting)); border-color: var(--ha-switch-border-color, var(--ha-color-border-neutral-normal))';
 			if (mode1 == 'on') {
-				mode1color = 'background-color: var(--switch-checked-color)';
+				mode1color = styleOn;
 			} else {
-				mode1color = 'background-color: var(--switch-unchecked-color)';
+				mode1color = styleOff;
 			}
 			if (mode2 == 'on') {
-				mode2color = 'background-color: var(--switch-checked-color)';
+				mode2color = styleOn;
 			} else {
-				mode2color = 'background-color: var(--switch-unchecked-color)';
+				mode2color = styleOff;
 			}
 			if (mode3 == 'on') {
-				mode3color = 'background-color: var(--switch-checked-color)';
+				mode3color = styleOn;
 			} else {
-				mode3color = 'background-color: var(--switch-unchecked-color)';
+				mode3color = styleOff;
 			}
 			if (offstate == 'on') {
-				offcolor = 'background-color: var(--switch-checked-color)';
+				offcolor = styleOn;
 			} else {
-				offcolor = 'background-color: var(--switch-unchecked-color)';
+				offcolor = styleOff;
 			}
 		}
 		
